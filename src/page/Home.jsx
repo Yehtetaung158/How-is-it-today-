@@ -45,8 +45,8 @@ const Home = () => {
     currentlyFun(currentCityName);
   };
   return (
-    <div>
-      <div className=" flex">
+    <div className="overflow-x-auto sm:mx-2 sm:my-2 md:mx-4 md:my-4 lg:mx-6 lg:my-6 xl:mx-8 xl:my-8 2xl:mx-10 2xl:my-10 sm:px-2 md:px-4 lg:px-6 xl:px-8 2xl:px-10 px-6">
+      <div className="min-w-full divide-y divide-gray-200 flex ">
         <input
           type="text"
           id="first_name"
@@ -69,7 +69,7 @@ const Home = () => {
         <h1 className=" text-xl font-bold text-gray-500">{current?.weather.description}</h1>
       </div>
       <TodayWeather hourly={hourly}/>
-      <div className=" flex  justify-between items-center border-2 px-4 py-6">
+      <div className=" flex mb-8  justify-between items-center border-2 px-4 py-6">
         <div >
             <h1 className=" text-2xl font-bold">Homidity</h1>
             <h1 className=" text-lg">{current?.rh}%</h1>
@@ -77,6 +77,13 @@ const Home = () => {
         <div>
             <h1>{current?.wind_spd}</h1>
             <h1>{current?.wind_cdir_full}</h1>
+        </div>
+      </div>
+      <div className=" flex  justify-between items-center border-2 px-4 py-6">
+        <div >
+            <h1 className=" text-2xl font-bold">Sun</h1>
+            <h1 className=" text-lg">Sun Rise - {current?.sunrise}</h1>
+            <h1 className=" text-lg">Sun Set - {current?.sunset}</h1>
         </div>
       </div>
       <button
