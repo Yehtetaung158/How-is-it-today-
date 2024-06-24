@@ -3,6 +3,7 @@ import { useGetCurrentByCityMutation } from "../store/service/endpiont/weatheren
 import { useNavigate } from "react-router-dom";
 import CityTable from "../components/CityTable";
 import Swal from "sweetalert2";
+import img from "../../img/Empty street-rafiki.svg"
 
 const Add = () => {
   const [currentfun, { isError, isLoading, data }] = useGetCurrentByCityMutation();
@@ -10,6 +11,7 @@ const Add = () => {
   const [input, setInput] = useState("");
   const [rs, setRs] = useState(false);
   const previousDataRef = useRef();
+  const Img=img;
 
   const inputHandle = (e) => setInput(e.target.value);
 
@@ -122,7 +124,7 @@ const Add = () => {
             {!isLoading && citydata.length === 0 && (
               <tr>
                 <td colSpan={4} className="text-center text-gray-600">
-                  <img className="w-[200px] m-auto" src="/img/Empty street-rafiki.svg" alt="Empty list" />
+                  <img className="w-[200px] m-auto" src={Img} alt="Empty list" />
                   <p>There is no List</p>
                 </td>
               </tr>
