@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useGetCurrentByCityMutation } from "../store/service/endpiont/weatherendpoint";
 import { useNavigate } from "react-router-dom";
 import CityTable from "../components/CityTable";
@@ -20,11 +20,16 @@ const Add = () => {
   const nav = useNavigate();
   const [input, setInput] = useState("");
   const [rs, setRs] = useState(false);
+  const previousDataRef = useRef();
   const inputHandle = (e) => setInput(e.target.value);
   const addHandle = async () => {
-    currentfun(input);
-    setInput("");
-    setRs(!rs);
+    try {
+      await currentfun(input);
+      setInput("");
+      setRs(!rs);
+    } catch (error) {
+      console.error("Error in addHandle:", error);
+    }
   };
 
   function addObjectToLocalStorage(newObject) {
@@ -43,11 +48,24 @@ const Add = () => {
     setRs(!rs);
     setInput("");
   };
+  // useEffect(() => {
+  //   console.log("Data:", data);
+  //   if (currentData) {
+  //     addObjectToLocalStorage(currentData);
+  //     setRs(!rs);
+  //   }
+  // }, [data]);
   useEffect(() => {
-    if (currentData) {
+    console.log("Data:", data); // Log data for debugging
+    const currentData = data?.data?.[0];
+
+    // Check if data has changed
+    if (previousDataRef.current !== data && currentData) {
       addObjectToLocalStorage(currentData);
       setRs(!rs);
     }
+    // Update the ref to the latest data
+    previousDataRef.current = data;
   }, [data]);
   return (
     <div className=" max-w-3xl mx-auto ">

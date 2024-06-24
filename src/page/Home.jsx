@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
 import {
   useGetByCityHourlyMutation,
   useGetCurrentByCityMutation,
@@ -15,33 +14,37 @@ const Home = () => {
   const [hourlyFun, weatherHourly] = useGetByCityHourlyMutation();
   const [currentlyFun, weatherCurrently] = useGetCurrentByCityMutation();
   const hourly = weatherHourly.data?.data;
-  const current = weatherCurrently.data?.data[0];
-  const isLoading=weatherHourly?.isLoading;
-  const isError=weatherHourly?.isError;
-  function showAlert() {
-    Swal.fire({
-      text: "Smething is wrong",
-      confirmButtonColor: "#d33",
-      background: "#f3f4f4",
-    });
-  }
-
+  const current = weatherCurrently.data?.data?.[0];
+  const isLoading = weatherHourly?.isLoading;
+  const isError = weatherHourly?.isError;
+  
+  const [input, setInput] = useState("Yangon");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hasFetched, setHasFetched] = useState(false);
+  const previousDataRef = useRef();
 
-  const [input, setInput] = useState("Yangon");
   const inputHandle = (e) => setInput(e.target.value);
 
-  const addedCity = JSON.parse(localStorage.getItem("myArray"));
+  const addedCity = JSON.parse(localStorage.getItem("myArray")) || [];
   const items = [{ city_name: input }, ...addedCity];
 
   useEffect(() => {
-    if (!hasFetched && currentIndex === 0 && items) {
+    if (!hasFetched && currentIndex === 0 && items.length > 0) {
       hourlyFun(items[0].city_name);
       currentlyFun(items[0].city_name);
       setHasFetched(true);
     }
-  }, [currentIndex, items, hasFetched]);
+  }, [currentIndex, items, hasFetched, hourlyFun, currentlyFun]);
+
+  useEffect(() => {
+    if (isError) {
+      Swal.fire({
+        text: "Something is wrong",
+        confirmButtonColor: "#d33",
+        background: "#f3f4f4",
+      });
+    }
+  }, [isError]);
 
   const goToPrevious = () => {
     const newIndex = (currentIndex - 1 + items.length) % items.length;
@@ -58,9 +61,9 @@ const Home = () => {
     hourlyFun(currentCityName);
     currentlyFun(currentCityName);
   };
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-2">
-      {isError && showAlert()}
       <HomeNavBar
         hourlyFun={hourlyFun}
         currentlyFun={currentlyFun}
@@ -69,18 +72,24 @@ const Home = () => {
         input={input}
         inputHandle={inputHandle}
       />
-      {isLoading ? <CurrentLoader/> : <><Current current={current}/>      
-      <TodayWeather hourly={hourly} />
-      <Homidity current={current}/></>}
+      {isLoading ? (
+        <CurrentLoader />
+      ) : (
+        <>
+          <Current current={current} />
+          <TodayWeather hourly={hourly} />
+          <Homidity current={current} />
+        </>
+      )}
       <button
         onClick={goToPrevious}
-        className="absolute text-2xl top-1/2 left-0 transform -translate-y-1/2  text-gray-500 px-4 py-2 "
+        className="absolute text-2xl top-1/2 left-0 transform -translate-y-1/2 text-gray-500 px-4 py-2"
       >
         ❮
       </button>
       <button
         onClick={goToNext}
-        className="absolute text-2xl top-1/2 right-0 transform -translate-y-1/2  text-gray-500 px-4 py-2 "
+        className="absolute text-2xl top-1/2 right-0 transform -translate-y-1/2 text-gray-500 px-4 py-2"
       >
         ❯
       </button>
