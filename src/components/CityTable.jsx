@@ -5,7 +5,7 @@ import withReactContent from "sweetalert2-react-content";
 
 const MySwal = withReactContent(Swal);
 const CityTable = ({ citydata, deletefun }) => {
-  console.log(citydata);
+//   console.log(citydata);
   const handleDelete = () => {
     MySwal.fire({
         html: '<p>Are your sure to delete</p>',
@@ -26,7 +26,7 @@ const CityTable = ({ citydata, deletefun }) => {
       }).then((result) => {
       if (result.isConfirmed) {
         deletefun();
-        MySwal.fire("Deleted!", "Your city has been deleted.", "success");
+        MySwal.fire("Deleted!", "Your city has been deleted.");
       }
     });
   };

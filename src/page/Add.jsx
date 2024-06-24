@@ -8,12 +8,13 @@ const Add = () => {
   const [currentfun, { isError, isLoading, data }] =
     useGetCurrentByCityMutation();
 
-    function showAlert() {
-      Swal.fire({
-        text: 'Require correct input',
-        confirmButtonColor: '#d33',
-        background: '#f3f4f4',
-      })}
+  function showAlert() {
+    Swal.fire({
+      text: "Smething is wrong",
+      confirmButtonColor: "#d33",
+      background: "#f3f4f4",
+    });
+  }
 
   const currentData = data?.data[0];
   const nav = useNavigate();
@@ -27,7 +28,6 @@ const Add = () => {
   };
 
   function addObjectToLocalStorage(newObject) {
-    console.log("added to local");
     let array = localStorage.getItem("myArray");
     array = array ? JSON.parse(array) : [];
     array.push(newObject);
@@ -43,7 +43,6 @@ const Add = () => {
     setRs(!rs);
     setInput("");
   };
-  console.log(citydata.length);
   useEffect(() => {
     if (currentData) {
       addObjectToLocalStorage(currentData);
@@ -52,7 +51,13 @@ const Add = () => {
   }, [data]);
   return (
     <div className=" max-w-3xl mx-auto ">
-      <div className=" flex justify-center items-center my-2">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          addHandle();
+        }}
+        className=" flex justify-center items-center my-2"
+      >
         <button
           onClick={() => nav("/")}
           type="button"
@@ -71,14 +76,13 @@ const Add = () => {
           required
         />
         <button
-          onClick={addHandle}
-          type="button"
+          type="submit"
           className="py-2.5 px-5  text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
         >
           ADD
         </button>
-      </div>
-      {isError && showAlert() }
+      </form>
+      {isError && showAlert()}
       <div className="overflow-x-auto sm:mx-2 sm:my-2 md:mx-4 md:my-4 lg:mx-6 lg:my-6 xl:mx-8 xl:my-8 2xl:mx-10 2xl:my-10 sm:px-2 md:px-4 lg:px-6 xl:px-8 2xl:px-10">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">

@@ -21,25 +21,10 @@ const TodayWeather = ({hourly}) => {
             }
           `}
         </style>
-
-        {/* <h1 className=" border-e-2 pr-4 ">Book</h1>
-        <h1 className=" border-e-2 pr-4 ">Book</h1>
-        <h1 className=" border-e-2 pr-4 ">Book</h1>
-        <h1 className=" border-e-2 pr-4 ">Book</h1>
-        <h1 className=" border-e-2 pr-4 ">Book</h1>
-        <h1 className=" border-e-2 pr-4 ">Book</h1>
-        <h1 className=" border-e-2 pr-4 ">Book</h1>
-        <h1 className=" border-e-2 pr-4 ">Book</h1>
-        <h1 className=" border-e-2 pr-4 ">Book</h1>
-        <h1 className=" border-e-2 pr-4 ">Book</h1>
-        <h1 className=" border-e-2 pr-4 ">Book</h1>
-        <h1 className=" border-e-2 pr-4 ">Book</h1> */}
-       
-
         {hourly ? (
           <>
             {hourly?.map((i, index) => (
-                <div key={index} className=" flex flex-col gap-4 px-2 m-2">
+                <div key={index} className=" flex flex-col gap-4 px-2 m-2 text-sm">
                   <h1>{i.datetime.slice(11, 14)}:00</h1>
                   <img
                     src={`https://cdn.weatherbit.io/static/img/icons/${i.weather.icon}.png`}
@@ -50,7 +35,7 @@ const TodayWeather = ({hourly}) => {
             ))}
           </>
         ) : (
-          <div className=" flex flex-col gap-4 px-2">
+          <div className=" flex flex-col gap-4 px-2 text-sm">
             <h1 className=" m-8">Loading ....</h1>
           </div>
         )}
