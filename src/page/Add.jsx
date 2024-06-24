@@ -122,7 +122,7 @@ const Add = () => {
             {!isLoading && citydata.length === 0 && (
               <tr>
                 <td colSpan={4} className="text-center text-gray-600">
-                  <img className="w-[200px] m-auto" src="img/Empty street-rafiki.svg" alt="Empty list" />
+                  <img className="w-[200px] m-auto" src="/img/Empty street-rafiki.svg" alt="Empty list" />
                   <p>There is no List</p>
                 </td>
               </tr>
